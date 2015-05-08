@@ -1,0 +1,62 @@
+---
+# This task performs CPE base installation
+
+  # Import key file from http://apt.sw.be
+  - rpm_key: state=present key={{ RPM_GPG_KEY }}
+
+  - name: Install epel rpm
+    yum: name={{ RPM_EPEL }} state=present
+
+  - name: Install rpmforge rpm
+    yum: name={{ RPM_FORGE }} state=present
+
+  - name: Upgrade all packages
+    yum: name=* state=latest
+
+  - name: Install the 'Development tools' package group
+    yum: name="@Development Tools" state=present
+
+  - name: Install dependencies
+    yum: name={{ item }} state=present
+    with_items:
+    - libsrtp
+    - libsrtp-devel
+    - ncurses-devel
+    - libxml2-devel
+    - sqlite-devel
+    - libuuid
+    - libuuid-devel
+    - memcached
+    - wget
+    - ffmpeg
+    - mpg123
+    - mplayer
+    - mysql
+    - git
+    - memcached
+    - sox
+    - cpan
+    - perl-CGI
+    - perl-Logger-Syslog
+    - perl-Math-Round
+    - perl-DBD-MySQL
+    - perl-JSON
+    - perl-Time-HiRes
+    - perl-EV
+    - perl-Crypt-SSLeay
+    - openssl-devel
+    - libsrtp-devel
+    - httpd
+    - mod_ssl
+    - perl-Cache-Memcached
+
+  - name: Install libselinux-python
+    yum: name=libselinux-python state=present
+
+  - name: Prepare CPAN Config
+    file: path=/root/.cpan/CPAN state=directory mode=0755
+
+  - template: src=/etc/ansible/roles/cpe_base_install/templates/MyConfig.pm.j2 dest=/root/.cpan/CPAN/MyConfig.pm
+
+  - name: Install CPAN perl modules
+    shell: "/bin/env PERL_MM_USE_DEFAULT=1 /usr/bin/cpan LWP Asterisk::AMI Cache::Memcached File::Tail Logger::Syslog"

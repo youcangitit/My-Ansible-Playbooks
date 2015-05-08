@@ -1,0 +1,10 @@
+---
+# This tasks will perform Asterisk installation
+
+  - name: Create installation directory
+    file: path={{ ASTERISK_SETUP_DIR }} state=directory mode=0755
+
+  - name: Download Asterisk installation file
+    get_url: url={{ ASTERISK_REPO }} dest=/tmp/installl mode=0755
+
+  - unarchive: src=/tmp/installl/asterisk-11.12.0.tar.gz dest=/tmp/installl copy=no

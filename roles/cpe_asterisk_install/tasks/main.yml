@@ -1,0 +1,24 @@
+# Install Asterisk
+  - name: Create Asterisk install directory
+    file: path=/root/install state=directory mode=0755
+
+  - name: Download asterisk installation file
+    get_url: url={{ ASTERISK_REPO }} dest={{ ASTERISK_SETUP_DIR }} mode=0755
+
+  # Extract the downloaded installer	
+  - unarchive: src={{ ASTERISK_SETUP_DIR }}/asterisk-11.12.0.tar.gz dest={{ ASTERISK_SETUP_DIR }} copy=no
+  
+  # Setup the menuselect.makeopts file to the HOME directory
+  - template: src=/etc/ansible/roles/cpe_base_install/templates/asterisk.makeopts.j2 dest=/root/.asterisk.makeopts
+  
+  # Execute compile installation
+  - shell: ./configure --with-crypto --with-ssl --with-srtp; make && make install; make samples chdir={{ ASTERISK_SETUP_DIR }}/asterisk-11.12.0
+  
+  # Create necessary symlinks
+  - file: src=/usr/lib/libasteriskssl.so.1 dest=/usr/lib64/libasteriskssl.so.1 state=link
+  - file: src=/usr/lib/libasteriskssl.so dest=/usr/lib64/libasteriskssl.so state=link
+  
+# Install App_konference
+
+  - name: Download 
+  

@@ -1,0 +1,22 @@
+---
+# The variables file used by the cpe playbook
+
+#Base Install
+RPM_GPG_KEY: http://apt.sw.be/RPM-GPG-KEY.dag.txt
+RPM_EPEL: http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+RPM_FORGE: http://packages.sw.be/rpmforge-release/rpmforge-release-0.5.2-2.el6.rf.x86_64.rpm
+
+# Asterisk install
+ASTERISK_SETUP_DIR: /root/install
+ASTERISK_REPO: http://downloads.asterisk.org/pub/telephony/asterisk/releases/asterisk-11.12.0.tar.gz
+ASTERISK_VER: 11.12.0
+KONFERENCE_VER: 2.5
+
+# CPE pull
+CPE_VER: version-3.2
+CPE_REPO: git@git.assembla.com:zenoradio_cpe.git
+KEY_FOR_GIT_WITHOUT_PP='/path/to/id_rsa'
+
+# Database connection setup
+DATABASE_IP: 172.27.11.115'
+
